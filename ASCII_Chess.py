@@ -820,7 +820,7 @@ def convert_input_to_coords(player_input):
         
         # Check if the two coordinate pairs are within bounds
         if not is_within_bounds(selected_position) or not is_within_bounds(destination_position):
-            print("inputted Coords are not within bounds")
+            print("inputted coords are not within bounds")
             return False
         else:
             return selected_position, destination_position 
@@ -956,7 +956,7 @@ def count_possible_moves_when_in_check(king_in_check):
     # Remove or block the piece placing you in check (If piece > 1, king has to move)
     pieces_threatening_king = [i for i in THE_BOARD.all_pieces_on_team(opposite_team) if i.threatening_king]
     for threat in pieces_threatening_king:
-        print(f'{threat.symbol}: threatening the king')
+        print(f'{threat.symbol}: threatening the king\n')
 
     if len(pieces_threatening_king) == 1:
         # Identify the piece that is threatening the king and all the space it is influencing
@@ -980,9 +980,11 @@ def count_possible_moves_when_in_check(king_in_check):
                         piece.possible_moves_during_check.append(threat_space)
                         num_of_possible_moves += 1
                     
+                    """
                     # Debugging
                     if piece.possible_moves_during_check:
                         print(f"Potential Move: {piece.symbol}  on {piece.position} can move to {piece.possible_moves_during_check}")
+                    """
             
             # If the threat is a bishop or rook or queen, they have a blockable 'path' that can be occupied
             elif isinstance(threat, Queen) or isinstance(threat, Bishop) or isinstance(threat, Rook):
@@ -994,24 +996,28 @@ def count_possible_moves_when_in_check(king_in_check):
                             piece.possible_moves_during_check.append(space)
                             num_of_possible_moves += 1
 
+                    """
                     # Debugging
                     if piece.possible_moves_during_check:
                         print(f"Potential Move: {piece.symbol}  on {piece.position} can move to {piece.possible_moves_during_check}")
+                    """
         
     # Return the number of possible moves
     num_of_possible_moves += len(king_in_check.possible_moves_during_check)
 
+    """
     # Debugging
     print("num moves possible:", num_of_possible_moves)
     print("num moves king can do:", len(king_in_check.possible_moves_during_check))
     print(king_in_check.possible_moves_during_check)
+    """
 
     return num_of_possible_moves
  
 
 def main():
     "Runs the game loop"
-    
+    """
     # Debugging
     test_queen1 = Queen('white', (7, 0))
     test_rook1 = Rook('black', (0, 0))
@@ -1023,9 +1029,9 @@ def main():
         THE_BOARD.update(test)
     for test in test_pieces:
         test.update_spaces_threatened()
+    """
     
-    
-    # initialize_board()
+    initialize_board()
 
     # Variable that keeps the game loop going
     game = True
