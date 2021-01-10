@@ -6,6 +6,9 @@ This programs lets you play a chess on a text interface terminal.
 More practice with OOP and hopefully a first step in making a 
 full-fledged chess game with AI.
 """
+import colored
+from colored import stylize
+
 class Board():
     "Board containing an 8x8 two dimensional list"
 
@@ -70,7 +73,13 @@ class Board():
                 if isinstance(space, str):
                     line += f' {space} |'
                 else:
-                    line += f' {space.symbol} |'
+                    starter = ' '
+                    ender = '|'
+                    if space.team == 'white':
+                        piece = stylize(space.symbol+' ', colored.fg("light_blue"))
+                    else:
+                        piece = stylize(space.symbol+' ', colored.fg("light_red"))
+                    line += starter+piece+ender
             print(line)
             print("   ---------------------------------")
         print("   | A | B | C | D | E | F | G | H |\n")
@@ -1046,12 +1055,13 @@ def main():
 
         if turn % 2 == 0:
             player = "white"
+            player_color = "blue"
             player_move_completed = False
             my_king = is_my_king_in_check(player)
             if my_king:
-                print(f"{(player).upper()} KING IN CHECK")
+                print(f"{player_color.upper()} KING IN CHECK")
                 if count_possible_moves_when_in_check(my_king) < 1:
-                    loser = player
+                    loser = player_color
                     break
             
             stalemate = check_stalemate(player)
@@ -1060,7 +1070,7 @@ def main():
 
             while not player_move_completed:
                 print("")
-                move = input("WHITE TO MOVE:\n")
+                move = input("BLUE TO MOVE:\n")
 
                 coordinates = convert_input_to_coords(move)
                 # Checks to see if coordinates are valid (True if valid)
@@ -1078,12 +1088,13 @@ def main():
 
         else:
             player = "black"
+            player_color = "red"
             player_move_completed = False
             my_king = is_my_king_in_check(player)
             if my_king:
-                print(f"{player.upper()} KING IN CHECK")
+                print(f"{player_color.upper()} KING IN CHECK")
                 if count_possible_moves_when_in_check(my_king) < 1:
-                    loser = player
+                    loser = player_color
                     break
             
             stalemate = check_stalemate(player)
@@ -1091,7 +1102,7 @@ def main():
                 break
 
             while not player_move_completed:
-                move = input("BLACK TO MOVE:\n")
+                move = input("RED TO MOVE:\n")
 
                 coordinates = convert_input_to_coords(move)
                 # Checks to see if coordinates are valid (True if valid)
